@@ -8,24 +8,24 @@
 
 选择默认的`Strong password Encryption`，基于`SHA256`的授权方法。
  ~~~~
-    adi0229 (adi0229 *) ~
-    $ alias mysql=/usr/local/mysql/bin/mysql
-    adi0229 (adi0229 *) ~
-    $ alias mysqladmin=/usr/local/mysql/bin/mysqladmin
-    adi0229 (adi0229 *) ~
-    $ PATH="$PATH":/usr/local/mysql/bi
+adi0229 (adi0229 *) ~
+$ alias mysql=/usr/local/mysql/bin/mysql
+adi0229 (adi0229 *) ~
+$ alias mysqladmin=/usr/local/mysql/bin/mysqladmin
+adi0229 (adi0229 *) ~
+$ PATH="$PATH":/usr/local/mysql/bi
 ~~~~
 ~~~~
-    # 登录出错
-    $ mysqladmin --version
-    /usr/local/mysql/bin/mysqladmin  Ver 8.0.16 for macos10.14 on x86_64 (MySQL Community Server - GPL)
-    adi0229 (adi0229 *) ~
-    $ mysql
-    ERROR 1045 (28000): Access denied for user 'adi0229'@'localhost' (using password: NO)
+# 登录出错
+$ mysqladmin --version
+/usr/local/mysql/bin/mysqladmin  Ver 8.0.16 for macos10.14 on x86_64 (MySQL Community Server - GPL)
+adi0229 (adi0229 *) ~
+$ mysql
+ERROR 1045 (28000): Access denied for user 'adi0229'@'localhost' (using password: NO)
 ~~~~ 
-    搜到一篇博文，[解决MySQL登录ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using passwor)问题](https://blog.csdn.net/lisongjia123/article/details/57418989)，其中步骤太繁琐，重新输入密码，成功登录。
+搜到一篇博文，[解决MySQL登录ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using passwor)问题](https://blog.csdn.net/lisongjia123/article/details/57418989)，其中步骤太繁琐，重新输入密码，成功登录。
 ~~~~
-    # 登录出错
+# 登录成功
 $ mysql -u root -p
 Enter password:
 Welcome to the MySQL monitor.  Commands end with ; or \g.
@@ -41,3 +41,16 @@ owners.
 Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
 ~~~~ 
+
+~~~~
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.04 sec)
+~~~~
