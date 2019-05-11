@@ -123,9 +123,9 @@ https://www.wikiwand.com/zh-cn/MySQL
 
 # 作业
 
-###项目 1
+## 项目 1
 
-#### 查找重复的电子邮箱
+### 查找重复的电子邮箱
 
 ~~~~
 mysql> CREATE TABLE email (
