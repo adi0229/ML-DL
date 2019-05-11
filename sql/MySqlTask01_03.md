@@ -197,3 +197,42 @@ mysql> select * from `World`
 5 rows in set (0.00 sec)
 ~~~~
 
+## 项目1:查询
+
+语法：
+~~~~
+SELECT column_name,column_name
+FROM table_name
+[WHERE Clause]
+[LIMIT N][ OFFSET M]
+~~~~
+
+~~~~
+mysql> select Id,Email,count(*) as count from email group by Email having count>1;
++----+---------+-------+
+| Id | Email   | count |
++----+---------+-------+
+|  1 | a@b.com |     2 |
++----+---------+-------+
+1 row in set (0.01 sec)
+~~~~
+
+~~~~
+mysql> Select Email,Count(*) From email Group By Email Having Count(*) > 1
+    -> ;
++---------+----------+
+| Email   | Count(*) |
++---------+----------+
+| a@b.com |        2 |
++---------+----------+
+1 row in set (0.00 sec)
+
+mysql> Select Email From email Group By Email Having Count(*) > 1
+    -> ;
++---------+
+| Email   |
++---------+
+| a@b.com |
++---------+
+1 row in set (0.00 sec)
+~~~~
