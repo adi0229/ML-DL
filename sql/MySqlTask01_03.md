@@ -114,14 +114,18 @@ http://zh.wikipedia.org/zh-cn/SQL
 MySQL是甲骨文公司旗下的关系型数据库管理系统。
 https://www.wikiwand.com/zh-cn/MySQL
 
+参考：MySQL 教程 http://www.runoob.com/mysql/mysql-tutorial.html
+
 ### 1.2.9. SQL代码规范
 
 [SQL编程格式的优化建议] [https://zhuanlan.zhihu.com/p/27466166](https://zhuanlan.zhihu.com/p/27466166)
 [SQL Style Guide] [https://www.sqlstyle.guide/](https://www.sqlstyle.guide/)
 
-# 作业：项目 1
+# 作业
 
-参考：MySQL 教程 http://www.runoob.com/mysql/mysql-tutorial.html
+###项目 1
+
+#### 查找重复的电子邮箱
 
 ~~~~
 mysql> CREATE TABLE email (
@@ -235,4 +239,23 @@ mysql> Select Email From email Group By Email Having Count(*) > 1
 | a@b.com |
 +---------+
 1 row in set (0.00 sec)
+~~~~
+
+参考：https://www.cnblogs.com/peida/archive/2011/11/12/2246463.html
+
+## 项目2
+### 查找大国
+
+~~~~
+mysql> select name, population, area from World
+    -> where population>25000000
+    -> and gdp>20000000
+    -> ;
++-------------+------------+---------+
+| name        | population | area    |
++-------------+------------+---------+
+| Afghanistan |   25500100 |  652230 |
+| Algeria     |   37100000 | 2381741 |
++-------------+------------+---------+
+2 rows in set (0.00 sec)
 ~~~~
