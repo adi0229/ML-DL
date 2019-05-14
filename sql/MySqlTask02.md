@@ -198,5 +198,46 @@ mysql> select count(distinct student) from courses group by class
 4 rows in set (0.01 sec)
 ~~~~
 
+项目四：交换工资（难度：简单）
 
+
+创建一个 salary表，如下所示，有m=男性 和 f=女性的值 。
+
+
+例如:
+
+| id | name | sex | salary |
+|----|------|-----|--------|
+| 1  | A    | m   | 2500   |
+| 2  | B    | f   | 1500   |
+| 3  | C    | m   | 5500   |
+| 4  | D    | f   | 500    |
+
+之前的 Query，全用小写，深感不符合 StyleGuide，看了 [SQL编程格式的优化建议](https://zhuanlan.zhihu.com/p/27466166)
+
+~~~~
+mysql> insert into salary value('1','A','m',2500);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into salary value('2','B','f',1500);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into salary value('3','C','m',5500);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into salary value('4','D','f',500);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from salary
+    -> ;
++----+------+------+--------+
+| id | name | sex  | salary |
++----+------+------+--------+
+|  1 | A    | m    |   2500 |
+|  2 | B    | f    |   1500 |
+|  3 | C    | m    |   5500 |
+|  4 | D    | f    |    500 |
++----+------+------+--------+
+4 rows in set (0.00 sec)
+~~~~
 
