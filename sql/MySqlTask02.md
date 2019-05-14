@@ -383,6 +383,7 @@ mysql> select * from Address;
 
 
 语法：select 表1.字段 [as 别名],表n.字段 from 表1 [别名],表n where 条件;
+
 Ref：12.8.3 多表联合查询 http://mysql.phpxy.com/75314
 
 ~~~~
@@ -397,4 +398,33 @@ mysql> SELECT Person.PersonId,Person.FirstName,Person.LastName,Address.City,Addr
 |        3 | Cris      | Paul     | Guangxi | Nanning |
 +----------+-----------+----------+---------+---------+
 3 rows in set (0.00 sec)
+~~~~
+
+
+项目六：删除重复的邮箱（难度：简单）
+
+编写一个 SQL 查询，来删除 email 表中所有重复的电子邮箱，重复的邮箱里只保留 **Id ***最小 *的那个。
+
++----+---------+
+| Id | Email   |
++----+---------+
+| 1  | a@b.com |
+| 2  | c@d.com |
+| 3  | a@b.com |
++----+---------+
+
+Id 是这个表的主键。
+
+例如，在运行你的查询语句之后，上面的 Person表应返回以下几行:
+
++----+------------------+
+| Id | Email            |
++----+------------------+
+| 1  | a@b.com |
+| 2  | c@d.com  |
++----+------------------+
+
+
+~~~~
+
 ~~~~
