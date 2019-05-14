@@ -146,3 +146,57 @@ mysql> select * from courses;
 编写一个 SQL 查询，列出所有超过或等于5名学生的课。
 
 
+
+~~~~
+mysql> select count(class) from courses
+    -> ;
++--------------+
+| count(class) |
++--------------+
+|           10 |
++--------------+
+1 row in set (0.04 sec)
+
+mysql> select count(student) from courses group by class
+    -> ;
++----------------+
+| count(student) |
++----------------+
+|              7 |
+|              1 |
+|              1 |
+|              1 |
++----------------+
+4 rows in set (0.01 sec)
+
+mysql> select class from courses group by class having count(student) > 5;
++-------+
+| class |
++-------+
+| Math  |
++-------+
+1 row in set (0.01 sec)
+~~~~
+
+看了 note 之后
+
+>学生在每个课中不应被重复计算。
+
+查询去重统计语法 [mysql count distinct 统计结果去重](https://my.oschina.net/jiec/blog/471730)
+
+~~~~
+mysql> select count(distinct student) from courses group by class
+    -> ;
++-------------------------+
+| count(distinct student) |
++-------------------------+
+|                       1 |
+|                       1 |
+|                       1 |
+|                       6 |
++-------------------------+
+4 rows in set (0.01 sec)
+~~~~
+
+
+
