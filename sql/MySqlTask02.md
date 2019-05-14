@@ -266,3 +266,135 @@ mysql> select * from salary;
 ~~~~
 如何使用SQL语句交换男女性别
 https://blog.csdn.net/u012351768/article/details/75529368
+
+## 2.2 MySQL 基础 （三）- 表联结
+### #学习内容#
+* MySQL别名
+* INNER JOIN
+* LEFT JOIN
+* CROSS JOIN
+* 自连接
+* UNION
+* 以上几种方式的区别和联系
+### #作业#
+
+项目五：组合两张表 （难度：简单）
+
+在数据库中创建表1和表2，并各插入三行数据（自己造）
+
+表1: Person
+
++-------------+---------+
+| 列名         | 类型     |
++-------------+---------+
+| PersonId    | int     |
+| FirstName   | varchar |
+| LastName    | varchar |
++-------------+---------+
+
+PersonId 是上表主键
+
+表2: Address
+
++-------------+---------+
+| 列名         | 类型    |
++-------------+---------+
+| AddressId   | int     |
+| PersonId    | int     |
+| City        | varchar |
+| State       | varchar |
++-------------+---------+
+
+AddressId 是上表主键
+
+编写一个 SQL 查询，满足条件：无论 person 是否有地址信息，都需要基于上述两表提供 person 的以下信息：FirstName, LastName, City, State
+
+~~~~
+mysql> CREATE TABLE Person (
+    -> PersonId INT NOT NULL PRIMARY KEY,
+    -> FirstName VARCHAR(255),
+    -> LastName VARCHAR(255)
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> insert into Person value('1','Jerry','Huang');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into Person value('2','Zhang','Fei');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Person value('3','Cris','Paul');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Person
+    -> ;
++----------+-----------+----------+
+| PersonId | FirstName | LastName |
++----------+-----------+----------+
+|        1 | Jerry     | Huang    |
+|        2 | Zhang     | Fei      |
+|        3 | Cris      | Paul     |
++----------+-----------+----------+
+3 rows in set (0.00 sec)
+~~~~
+
+~~~~
+mysql> CREATE TABLE Address (
+    -> AddressId INT NOT NULL PRIMARY KEY,
+    -> PersonId INT NOT NULL PRIMARY KEY,
+    -> City VARCHAR(255),
+    -> State VARCHAR(255)
+    -> );
+ERROR 1068 (42000): Multiple primary key defined
+mysql> CREATE TABLE Address (
+    -> AddressId INT NOT NULL PRIMARY KEY,
+    -> PersonId INT NOT NULL ,
+    -> City VARCHAR(255),
+    -> State VARCHAR(255)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> insert into Person value('1','1','BeiJing','BeiJing');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into Person value('2','2','NanJing','Jiangsu');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into Person value('3','3','Guangxi','Nanning');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into Address value('1','1','BeiJing','BeiJing');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Address value('2','2','NanJing','Jiangsu');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Address value('3','3','Guangxi','Nanning');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Address;
++-----------+----------+---------+---------+
+| AddressId | PersonId | City    | State   |
++-----------+----------+---------+---------+
+|         1 |        1 | BeiJing | BeiJing |
+|         2 |        2 | NanJing | Jiangsu |
+|         3 |        3 | Guangxi | Nanning |
++-----------+----------+---------+---------+
+3 rows in set (0.00 sec)
+~~~~
+
+
+
+语法：select 表1.字段 [as 别名],表n.字段 from 表1 [别名],表n where 条件;
+Ref：12.8.3 多表联合查询 http://mysql.phpxy.com/75314
+
+~~~~
+mysql> SELECT Person.PersonId,Person.FirstName,Person.LastName,Address.City,Address.State
+    -> FROM Person, Address
+    -> WHERE Person.PersonId = Address.PersonId;
++----------+-----------+----------+---------+---------+
+| PersonId | FirstName | LastName | City    | State   |
++----------+-----------+----------+---------+---------+
+|        1 | Jerry     | Huang    | BeiJing | BeiJing |
+|        2 | Zhang     | Fei      | NanJing | Jiangsu |
+|        3 | Cris      | Paul     | Guangxi | Nanning |
++----------+-----------+----------+---------+---------+
+3 rows in set (0.00 sec)
+~~~~
