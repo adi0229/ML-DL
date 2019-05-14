@@ -13,7 +13,7 @@ $ alias mysql=/usr/local/mysql/bin/mysql
 adi0229 (adi0229 *) ~
 $ alias mysqladmin=/usr/local/mysql/bin/mysqladmin
 adi0229 (adi0229 *) ~
-$ PATH="$PATH":/usr/local/mysql/bi
+$ PATH="$PATH":/usr/local/mysql/bin
 ~~~~
 ~~~~
 # 登录出错
