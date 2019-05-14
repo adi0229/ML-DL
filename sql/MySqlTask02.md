@@ -146,7 +146,7 @@ mysql> select * from courses;
 编写一个 SQL 查询，列出所有超过或等于5名学生的课。
 
 
-
+Ref: [sql语句中GROUP BY 和 HAVING的使用 count()](https://hejiajunsh.iteye.com/blog/1833847)
 ~~~~
 mysql> select count(class) from courses
     -> ;
