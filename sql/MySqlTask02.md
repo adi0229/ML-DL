@@ -241,3 +241,28 @@ mysql> select * from salary
 4 rows in set (0.00 sec)
 ~~~~
 
+
+~~~~
+mysql> UPDATE salary
+    -> SET sex=
+    -> CASE sex
+    -> WHEN 'm'
+    -> THEN 'f'
+    -> ELSE 'm'
+    -> END;
+Query OK, 4 rows affected (0.01 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> select * from salary;
++----+------+------+--------+
+| id | name | sex  | salary |
++----+------+------+--------+
+|  1 | A    | f    |   2500 |
+|  2 | B    | m    |   1500 |
+|  3 | C    | f    |   5500 |
+|  4 | D    | m    |    500 |
++----+------+------+--------+
+4 rows in set (0.00 sec)
+~~~~
+如何使用SQL语句交换男女性别
+https://blog.csdn.net/u012351768/article/details/75529368
