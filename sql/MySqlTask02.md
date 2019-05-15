@@ -417,6 +417,8 @@ Id 是这个表的主键。
 
 例如，在运行你的查询语句之后，上面的 Person表应返回以下几行:
 
+
+
 +----+------------------+
 | Id | Email            |
 +----+------------------+
@@ -425,6 +427,151 @@ Id 是这个表的主键。
 +----+------------------+
 
 
+Ref: [how-to-remove-all-duplicate-rows-except-one-in-sql](https://www.designcise.com/web/tutorial/how-to-remove-all-duplicate-rows-except-one-in-sql)
+
+探索过程（各种输入&输出试验）
+
+~~~~
+mysql> create table email2 as (select ID, Email from email group by Email);
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'email.email.ID' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> set sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' ;
+ERROR 1231 (42000): Variable 'sql_mode' can't be set to the value of 'NO_AUTO_CREATE_USER'
+mysql> SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table email2 as (select ID, Email from email group by Email);
+Query OK, 2 rows affected (0.07 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from email2;
++----+---------+
+| ID | Email   |
++----+---------+
+|  1 | a@b.com |
+|  2 | c@d.com |
++----+---------+
+2 rows in set (0.00 sec)
+
+mysql> create temporary table tep_email (select ID, Email from email group by Email);
+Query OK, 2 rows affected (0.02 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> delete from email;
+Query OK, 3 rows affected (0.01 sec)
+
+mysql> insert into email (select * from tmp_email);
+ERROR 1146 (42S02): Table 'email.tmp_email' doesn't exist
+mysql> insert into email (slect * from tep_email);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from tep_email)' at line 1
+mysql> insert into email (select * from tep_email);
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> drop table tmp_user;
+ERROR 1051 (42S02): Unknown table 'email.tmp_user'
+mysql> drop table tmp_email;
+ERROR 1051 (42S02): Unknown table 'email.tmp_email'
+mysql> drop table tmp_email;
+ERROR 1051 (42S02): Unknown table 'email.tmp_email'
+mysql> drop table tep_email;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from email;
++----+---------+
+| ID | Email   |
++----+---------+
+|  1 | a@b.com |
+|  2 | c@d.com |
++----+---------+
+2 rows in set (0.00 sec)
+
+mysql> select * from email;
++----+---------+
+| ID | Email   |
++----+---------+
+|  1 | a@b.com |
+|  2 | c@d.com |
++----+---------+
+2 rows in set (0.00 sec)
+
+mysql> insert into email value('3','a@b.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from email;
++----+---------+
+| ID | Email   |
++----+---------+
+|  1 | a@b.com |
+|  2 | c@d.com |
+|  3 | a@b.com |
++----+---------+
+3 rows in set (0.00 sec)
+
+mysql> delete u1 from email u1,email u2;
+Query OK, 3 rows affected (0.01 sec)
+
+mysql> select * from email;
+Empty set (0.00 sec)
+
+mysql> INSERT INTO email VALUES('1','a@b.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO email VALUES('2','c@d.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO email VALUES('3','a@b.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from email;
++----+---------+
+| ID | Email   |
++----+---------+
+|  1 | a@b.com |
+|  2 | c@d.com |
+|  3 | a@b.com |
++----+---------+
+3 rows in set (0.00 sec)
+
+mysql> delete u1 from email u1, email u2
+    -> where u1.ID < u2.ID and u1.Email = u2.Email;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from email;
++----+---------+
+| ID | Email   |
++----+---------+
+|  2 | c@d.com |
+|  3 | a@b.com |
++----+---------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO email VALUES('1','a@b.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from email;
++----+---------+
+| ID | Email   |
++----+---------+
+|  1 | a@b.com |
+|  2 | c@d.com |
+|  3 | a@b.com |
++----+---------+
+3 rows in set (0.00 sec)
 ~~~~
 
+答案：
+
+~~~~
+mysql> delete u1 from email u1, email u2
+    -> where u1.ID > u2.ID and u1.Email = u2.Email;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from email;
++----+---------+
+| ID | Email   |
++----+---------+
+|  1 | a@b.com |
+|  2 | c@d.com |
++----+---------+
+2 rows in set (0.00 sec)
 ~~~~
