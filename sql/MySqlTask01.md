@@ -1,3 +1,9 @@
+Reference：
+
+DataWhale camp
+
+https://github.com/datawhalechina/MySql/tree/master/MySQL%E5%AD%A6%E4%B9%A0%E5%86%85%E5%AE%B9
+
 # DataWhale SQL 组队打卡学习营【任务一】
 ## 1.1 MySQL 软件安装及数据库基础
 
